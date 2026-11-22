@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual AI Enterprise Office | 20+ Autonomous Agents</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/floorplan.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>">
+</head>
+<body>
+
+  <!-- APP HEADER -->
+  <header class="app-header">
+    <div class="brand-wrapper">
+      <div class="brand-icon-box">🏢</div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h1 class="brand-title">Virtual AI Enterprise</h1>
+          <span class="brand-badge">23 Autonomous Agents</span>
+        </div>
+        <p style="font-size: 11px; color: var(--text-muted); margin-top: 1px;">
+          Interactive 2D Floor Plan & Voice-Enabled Autonomous Workforce
+        </p>
+      </div>
+    </div>
+
+    <!-- Central Search & Filters -->
+    <div class="header-actions">
+      <div class="filter-search-group">
+        <span style="font-size: 13px; color: var(--text-muted);">🔍</span>
+        <input type="text" id="agent-search-input" class="search-input" placeholder="Search by name, skill (Java, AI, AWS)..." />
+        <select id="dept-filter-select" class="dept-select">
+          <option value="ALL">All Departments (23)</option>
+          <option value="EXEC">Executive Suite (2)</option>
+          <option value="MGMT">Architecture & Mgmt (2)</option>
+          <option value="HR">HR & People Hub (2)</option>
+          <option value="ADMIN">Office & IT Admin (2)</option>
+          <option value="SALES">Sales & Solutions (2)</option>
+          <option value="POD1">Pod 1: Data & Enterprise (5)</option>
+          <option value="POD2">Pod 2: AI & Cognitive (4)</option>
+          <option value="POD3">Pod 3: Cloud & Web (4)</option>
+        </select>
+      </div>
+
+      <!-- Action Buttons -->
+      <button id="header-tour-btn" class="action-btn btn-primary-highlight" title="Start Guided Tour with HR">
+        👩‍💼 <span>HR Guided Tour</span>
+      </button>
+
+      <button id="mute-toggle-btn" class="action-btn" title="Toggle Voice Output">
+        🔊 <span>Voice ON</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- QUICK SKILL FILTER BAR -->
+  <div class="skills-quick-bar">
+    <span class="quick-bar-label">⚡ Filter Skills:</span>
+    <button class="quick-filter-tag" data-skill="Java">☕ Java 21 & Spring</button>
+    <button class="quick-filter-tag" data-skill="Ab Initio">📊 Ab Initio & ETL</button>
+    <button class="quick-filter-tag" data-skill="Python">🐍 Python 3.12+</button>
+    <button class="quick-filter-tag" data-skill="AWS">☁️ AWS & Terraform</button>
+    <button class="quick-filter-tag" data-skill="AI">🧠 LLM & AI Agents</button>
+    <button class="quick-filter-tag" data-skill="Canvas">🌐 Web Tools & UI</button>
+    <button class="quick-filter-tag" data-skill="Oracle">🗄️ Oracle DB & PL/SQL</button>
+    <button class="quick-filter-tag" data-skill="QA">🧪 Automated QA</button>
+    <button class="quick-filter-tag" data-skill="Architecture">🏛️ Enterprise Architecture</button>
+    <button class="quick-filter-tag" data-skill="Sales">📈 Sales & Solutions</button>
+  </div>
+
+  <!-- MAIN WORKSPACE & 2D FLOOR PLAN -->
+  <main class="workspace-container">
+    <div id="floorplan-viewport">
+      <!-- SVG Floor Plan injected by js/floorplan.js -->
+    </div>
+
+    <!-- Floating Zoom Controls -->
+    <div class="floorplan-floating-controls">
+      <button id="zoom-in-btn" class="float-ctrl-btn" title="Zoom In">+</button>
+      <button id="zoom-out-btn" class="float-ctrl-btn" title="Zoom Out">−</button>
+      <button id="reset-zoom-btn" class="float-ctrl-btn" title="Reset View" style="font-size: 13px;">⟲</button>
+    </div>
+
+    <!-- Floating Floor Legend -->
+    <div class="floor-legend-hud">
+      <div class="legend-item"><span class="legend-dot" style="background: #8b5cf6;"></span> Executive & AI</div>
+      <div class="legend-item"><span class="legend-dot" style="background: #ec4899;"></span> HR & People</div>
+      <div class="legend-item"><span class="legend-dot" style="background: #3b82f6;"></span> Pod 1: Data</div>
+      <div class="legend-item"><span class="legend-dot" style="background: #10b981;"></span> Pod 3: Web/Cloud</div>
+      <div class="legend-item"><span class="legend-dot" style="background: #f59e0b;"></span> Admin & IT</div>
+      <div class="legend-item"><span class="legend-dot" style="background: #22c55e;"></span> Active Ready</div>
+    </div>
+  </main>
+
+  <!-- BOTTOM LIVE SPEECH AUDIO BAR -->
+  <footer id="bottom-audio-bar" class="bottom-audio-bar">
+    <div class="audio-bar-info">
+      <div class="audio-pulse-indicator"></div>
+      <span id="bottom-speaker-name" class="audio-speaker-title">Sophia Bennett (HR Lead)</span>
+      <span id="bottom-speaker-text" class="audio-speaker-quote">"Welcome to our Virtual Office!..."</span>
+    </div>
+    <button id="bottom-stop-audio-btn" class="audio-stop-btn">◼ Stop Audio</button>
+  </footer>
+
+  <!-- WELCOME / ONBOARDING MODAL -->
+  <div id="welcome-onboarding-modal" class="modal-overlay">
+    <div class="modal-content-card welcome-card">
+      <span class="welcome-badge">★ Welcome to your Autonomous Workplace ★</span>
+      <h2 class="welcome-title">Welcome to the Virtual AI Enterprise</h2>
+      <p class="welcome-desc">
+        Every single colleague in this 2D office is an autonomous AI agent with distinct designations, technical knowledge bases, and real-time voice speech synthesis.
+      </p>
+
+      <div class="welcome-guide-spotlight">
+        <div class="guide-avatar-large">👩‍💼</div>
+        <div>
+          <strong style="color: var(--accent-pink); font-size: 13.5px;">Sophia Bennett — Lead HR Specialist & Concierge</strong>
+          <p class="guide-quote">
+            "Hello! I am Sophia from People Operations. I am here by the entrance to help you navigate through all 9 zones and meet our 23 AI agents. Would you like me to give you a guided tour?"
+          </p>
+        </div>
+      </div>
+
+      <div class="welcome-btn-row">
+        <button id="welcome-start-tour-btn" class="btn-welcome-primary">
+          🚀 Start HR Guided Tour
+        </button>
+        <button id="welcome-explore-btn" class="btn-welcome-secondary">
+          🗺️ Explore Office Freely
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENT DOSSIER & TASK ASSIGNMENT MODAL -->
+  <div id="agent-dossier-modal" class="modal-overlay">
+    <div class="modal-content-card agent-dossier-card">
+      
+      <!-- Dossier Header -->
+      <div class="dossier-header">
+        <div class="dossier-agent-id-block">
+          <div id="modal-avatar-box" class="dossier-avatar-box">
+            <span id="modal-avatar-initials">VS</span>
+          </div>
+          <div>
+            <h2 id="modal-agent-name" class="dossier-name">Dr. Victoria Sterling</h2>
+            <div id="modal-agent-designation" class="dossier-designation">Chief Executive Officer (CEO)</div>
+            <div id="modal-agent-dept" class="dossier-dept">Executive Leadership • EXEC-01</div>
+          </div>
+        </div>
+        <button id="modal-close-btn" class="dossier-close-btn" title="Close Dossier">✕</button>
+      </div>
+
+      <!-- Dossier Body -->
+      <div class="dossier-body">
+        
+        <!-- Voice & Speaking HUD -->
+        <div class="dossier-voice-hud">
+          <div class="voice-hud-left">
+            <span id="modal-speaking-badge" class="modal-speaking-pill" style="display: none;">🔊 Speaking Now</span>
+            <canvas id="modal-audio-wave" class="audio-wave-canvas" width="140" height="28"></canvas>
+            <span id="modal-agent-status" style="font-size: 12px; color: #94a3b8;">Active & Ready</span>
+          </div>
+          <div class="voice-hud-buttons">
+            <button id="modal-speak-intro-btn" class="btn-voice-play" title="Hear agent introduce themselves">
+              🔊 Speak Introduction
+            </button>
+            <button id="modal-stop-speech-btn" class="btn-voice-stop" title="Stop speech">
+              ◼ Stop
+            </button>
+          </div>
+        </div>
+
+        <!-- Role Bio & How They Work -->
+        <div class="dossier-section">
+          <span class="section-label">Agent Biography & Role</span>
+          <p id="modal-agent-bio" class="section-text"></p>
+        </div>
+
+        <div class="dossier-section">
+          <span class="section-label">How This Agent Works & Collaborates</span>
+          <p id="modal-how-they-work" class="section-text"></p>
+        </div>
+
+        <!-- Core Skills -->
+        <div class="dossier-section">
+          <span class="section-label">Core Technical Knowledge Base & Skills</span>
+          <div id="modal-skills-list" class="skills-badge-wrap"></div>
+        </div>
+
+        <!-- Workspace App Connections -->
+        <div class="dossier-section">
+          <span class="section-label">Workspace Applications & Integrated Systems</span>
+          <div id="modal-apps-list" class="apps-badge-wrap"></div>
+        </div>
+
+        <!-- Task Assignment & Prompt Runner -->
+        <div class="task-assignment-box">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="section-label" style="color: var(--accent-cyan);">⚡ Assign Project Work to This AI Agent</span>
+            <span style="font-size: 11px; color: var(--text-muted);">Real-Time Prompt Execution</span>
+          </div>
+
+          <!-- Sample Quick Prompts -->
+          <div id="modal-sample-tasks" style="display: flex; flex-direction: column; gap: 6px;"></div>
+
+          <!-- Prompt Input Form -->
+          <div class="task-input-row">
+            <input type="text" id="task-assignment-input" class="task-input" placeholder="Type instructions or select a sample task above..." />
+            <button id="send-task-btn" class="btn-assign-task">🚀 Assign Work</button>
+          </div>
+
+          <!-- Execution Response Box -->
+          <div id="task-response-container" style="display: none;"></div>
+        </div>
+
+        <!-- System Prompt Blueprint Accordion -->
+        <details class="dossier-section" style="cursor: pointer;">
+          <summary class="section-label" style="color: #64748b; font-size: 10.5px;">⚙️ View Autonomous Agent System Prompt</summary>
+          <pre id="modal-system-prompt" class="system-prompt-box" style="margin-top: 8px;"></pre>
+        </details>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/agents-data.js"></script>
+  <script src="js/speech.js"></script>
+  <script src="js/floorplan.js"></script>
+  <script src="js/tour.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
