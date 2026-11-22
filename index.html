@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Virtual AI Enterprise Office | 20+ Autonomous Agents</title>
+  <title>Virtual AI Enterprise Office | 3D & 2D Autonomous Workplace</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/floorplan.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>">
@@ -20,13 +20,23 @@
           <span class="brand-badge">23 Autonomous Agents</span>
         </div>
         <p style="font-size: 11px; color: var(--text-muted); margin-top: 1px;">
-          Interactive 2D Floor Plan & Voice-Enabled Autonomous Workforce
+          3D & 2D Virtual Environment with Autonomous Routines & Voice
         </p>
       </div>
     </div>
 
     <!-- Central Search & Filters -->
     <div class="header-actions">
+      <!-- 3D / 2D View Mode Toggle -->
+      <div class="view-mode-toggle-group">
+        <button id="view-mode-3d-btn" class="view-toggle-btn active-view" title="Switch to 3D Immersive View">
+          🌐 <span>3D Office</span>
+        </button>
+        <button id="view-mode-2d-btn" class="view-toggle-btn" title="Switch to 2D Blueprint View">
+          📐 <span>2D Blueprint</span>
+        </button>
+      </div>
+
       <div class="filter-search-group">
         <span style="font-size: 13px; color: var(--text-muted);">🔍</span>
         <input type="text" id="agent-search-input" class="search-input" placeholder="Search by name, skill (Java, AI, AWS)..." />
@@ -54,6 +64,33 @@
     </div>
   </header>
 
+  <!-- OFFICE SIMULATION CLOCK & ROUTINE CONTROLS BAR -->
+  <div class="sim-routine-bar">
+    <div class="sim-clock-block">
+      <span class="sim-clock-icon">⏰</span>
+      <span id="office-sim-clock" class="sim-clock-time">09:00 AM</span>
+      <span id="office-sim-phase" class="sim-clock-phase">Morning Standup & Architecture Planning</span>
+    </div>
+
+    <div class="sim-routine-actions">
+      <span class="sim-routine-label">Daily Routines:</span>
+      <button id="trigger-coffee-btn" class="sim-pill-btn" title="Agents walk to the barista for coffee">
+        ☕ Coffee Break
+      </button>
+      <button id="trigger-warroom-btn" class="sim-pill-btn" title="Leads & Architects gather in War Room">
+        🤝 War Room Sync
+      </button>
+      <button id="trigger-desks-btn" class="sim-pill-btn" title="All agents return to desks for focus work">
+        💻 All to Desks
+      </button>
+      <div class="sim-speed-box">
+        <button id="sim-speed-1x" class="speed-btn active-speed">1x</button>
+        <button id="sim-speed-2x" class="speed-btn">2x</button>
+        <button id="sim-speed-5x" class="speed-btn">5x</button>
+      </div>
+    </div>
+  </div>
+
   <!-- QUICK SKILL FILTER BAR -->
   <div class="skills-quick-bar">
     <span class="quick-bar-label">⚡ Filter Skills:</span>
@@ -69,14 +106,28 @@
     <button class="quick-filter-tag" data-skill="Sales">📈 Sales & Solutions</button>
   </div>
 
-  <!-- MAIN WORKSPACE & 2D FLOOR PLAN -->
+  <!-- MAIN WORKSPACE VIEWPORT -->
   <main class="workspace-container">
-    <div id="floorplan-viewport">
-      <!-- SVG Floor Plan injected by js/floorplan.js -->
+    <!-- 3D Three.js Office Viewport -->
+    <div id="office-3d-viewport" class="viewport-layer active-layer"></div>
+
+    <!-- 2D SVG Floor Plan Viewport -->
+    <div id="floorplan-viewport" class="viewport-layer"></div>
+
+    <!-- 3D Camera Preset HUD Toolbar (Visible in 3D Mode) -->
+    <div id="camera-presets-hud" class="camera-presets-hud">
+      <span class="camera-hud-title">🎥 3D Camera Views:</span>
+      <button class="cam-preset-btn active-cam" data-cam="godView">🦅 God View (Overview)</button>
+      <button class="cam-preset-btn" data-cam="executive">👑 Executive</button>
+      <button class="cam-preset-btn" data-cam="pod1">🗄️ Pod 1 (Data)</button>
+      <button class="cam-preset-btn" data-cam="pod2">🧠 Pod 2 (AI/ML)</button>
+      <button class="cam-preset-btn" data-cam="pod3">🌐 Pod 3 (Web/Cloud)</button>
+      <button class="cam-preset-btn" data-cam="warRoom">🤝 War Room</button>
+      <button class="cam-preset-btn" data-cam="lounge">☕ Atrium Lounge</button>
     </div>
 
-    <!-- Floating Zoom Controls -->
-    <div class="floorplan-floating-controls">
+    <!-- Floating Zoom Controls (for 2D view) -->
+    <div id="floorplan-zoom-controls" class="floorplan-floating-controls" style="display: none;">
       <button id="zoom-in-btn" class="float-ctrl-btn" title="Zoom In">+</button>
       <button id="zoom-out-btn" class="float-ctrl-btn" title="Zoom Out">−</button>
       <button id="reset-zoom-btn" class="float-ctrl-btn" title="Reset View" style="font-size: 13px;">⟲</button>
@@ -89,7 +140,7 @@
       <div class="legend-item"><span class="legend-dot" style="background: #3b82f6;"></span> Pod 1: Data</div>
       <div class="legend-item"><span class="legend-dot" style="background: #10b981;"></span> Pod 3: Web/Cloud</div>
       <div class="legend-item"><span class="legend-dot" style="background: #f59e0b;"></span> Admin & IT</div>
-      <div class="legend-item"><span class="legend-dot" style="background: #22c55e;"></span> Active Ready</div>
+      <div class="legend-item"><span class="legend-dot" style="background: #22c55e;"></span> Autonomous Walking</div>
     </div>
   </main>
 
@@ -107,9 +158,9 @@
   <div id="welcome-onboarding-modal" class="modal-overlay">
     <div class="modal-content-card welcome-card">
       <span class="welcome-badge">★ Welcome to your Autonomous Workplace ★</span>
-      <h2 class="welcome-title">Welcome to the Virtual AI Enterprise</h2>
+      <h2 class="welcome-title">Welcome to the 3D Virtual AI Enterprise</h2>
       <p class="welcome-desc">
-        Every single colleague in this 2D office is an autonomous AI agent with distinct designations, technical knowledge bases, and real-time voice speech synthesis.
+        Every single colleague in this 3D office is an autonomous AI agent with distinct designations, technical knowledge bases, daily movement routines, and real-time voice speech synthesis.
       </p>
 
       <div class="welcome-guide-spotlight">
@@ -127,29 +178,38 @@
           🚀 Start HR Guided Tour
         </button>
         <button id="welcome-explore-btn" class="btn-welcome-secondary">
-          🗺️ Explore Office Freely
+          🗺️ Explore 3D Office Freely
         </button>
       </div>
     </div>
   </div>
 
-  <!-- AGENT DOSSIER & TASK ASSIGNMENT MODAL -->
+  <!-- AGENT DOSSIER & TECH KNOWLEDGE MODAL -->
   <div id="agent-dossier-modal" class="modal-overlay">
     <div class="modal-content-card agent-dossier-card">
       
       <!-- Dossier Header -->
       <div class="dossier-header">
         <div class="dossier-agent-id-block">
-          <div id="modal-avatar-box" class="dossier-avatar-box">
-            <span id="modal-avatar-initials">VS</span>
+          <!-- Animated Muse-Style Holographic Cyber Avatar Canvas -->
+          <div class="holographic-avatar-wrapper">
+            <canvas id="dossier-muse-avatar" width="96" height="96" class="muse-avatar-canvas"></canvas>
+            <span class="hologram-live-badge">HOLO-AI</span>
           </div>
+
           <div>
             <h2 id="modal-agent-name" class="dossier-name">Dr. Victoria Sterling</h2>
             <div id="modal-agent-designation" class="dossier-designation">Chief Executive Officer (CEO)</div>
             <div id="modal-agent-dept" class="dossier-dept">Executive Leadership • EXEC-01</div>
           </div>
         </div>
-        <button id="modal-close-btn" class="dossier-close-btn" title="Close Dossier">✕</button>
+
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button id="modal-follow-cam-btn" class="action-btn" title="Follow this agent in 3D camera">
+            🎥 <span>Follow Cam</span>
+          </button>
+          <button id="modal-close-btn" class="dossier-close-btn" title="Close Dossier">✕</button>
+        </div>
       </div>
 
       <!-- Dossier Body -->
@@ -181,6 +241,36 @@
         <div class="dossier-section">
           <span class="section-label">How This Agent Works & Collaborates</span>
           <p id="modal-how-they-work" class="section-text"></p>
+        </div>
+
+        <!-- SPECIALIZED TECHNICAL KNOWLEDGE PLAYGROUND -->
+        <div class="tech-deepdive-card">
+          <div class="tech-card-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 16px;">⚡</span>
+              <div>
+                <strong style="color: #ffffff; font-size: 13.5px;">Specialized Tech Knowledge Hub</strong>
+                <div id="tech-primary-lang" style="font-size: 11px; color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace;"></div>
+              </div>
+            </div>
+            <button id="modal-run-quick-action-btn" class="btn-quick-tech-action">
+              ▶ Run Diagnostic Action
+            </button>
+          </div>
+
+          <!-- Quick Action Result Toast -->
+          <div id="tech-quick-action-result" class="tech-action-result-box" style="display: none;"></div>
+
+          <!-- Code Snippet Playground -->
+          <div class="code-snippet-container">
+            <div class="code-snippet-header">
+              <span class="code-dot dot-red"></span>
+              <span class="code-dot dot-yellow"></span>
+              <span class="code-dot dot-green"></span>
+              <span style="margin-left: 8px; font-size: 10px; color: #64748b; font-family: 'JetBrains Mono', monospace;">SPECIALIZED IMPLEMENTATION SNIPPET</span>
+            </div>
+            <pre id="tech-code-snippet" class="code-snippet-content"></pre>
+          </div>
         </div>
 
         <!-- Core Skills -->
@@ -225,10 +315,17 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Third-party 3D Libs -->
+  <script src="js/lib/three.min.js"></script>
+  <script src="js/lib/OrbitControls.js"></script>
+
+  <!-- Application Modules -->
   <script src="js/agents-data.js"></script>
   <script src="js/speech.js"></script>
+  <script src="js/avatar-generator.js"></script>
   <script src="js/floorplan.js"></script>
+  <script src="js/office-3d.js"></script>
+  <script src="js/routine-engine.js"></script>
   <script src="js/tour.js"></script>
   <script src="js/app.js"></script>
 </body>
